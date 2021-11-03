@@ -1,0 +1,14 @@
+json序列化反序列化gson库
+support库
+okhttp网络请求库
+picasso图片请求库
+facebook统计sdk
+二维码扫描
+admob广告
+gms
+okhttp 的io库
+eventbus
+retrofit
+rx java和android相关
+firebase
+androidx相关

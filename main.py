@@ -367,22 +367,22 @@ def compare(js, path, name, ls):
 if __name__ == '__main__':
     '''
     使用说明：先切换到main.py说在的目录直接运行main.py 然后将文件目录输入
-    例如apk保存的文件目录为 /Users/liuhuiliang/work/decompil/test
+    例如apk保存的文件目录为 /Users/liuhuiliang/work/decompil/test1
     chmod +x main.py
-    ./main.py /Users/liuhuiliang/work/decompil/test
+    ./main.py /Users/liuhuiliang/work/decompil/test1
     如果apktool使用自己的目录则需要输入文件地址
     例如
-    ./main.py /Users/liuhuiliang/work/decompil/test /Users/liuhuiliang/work/decompil/jar/apktool_2.4.1.jar
+    ./main.py /Users/liuhuiliang/work/decompil/test1 /Users/liuhuiliang/work/decompil/jar/apktool_2.4.1.jar
     '''
     if len(sys.argv) < 2:
         print('''
     使用说明：先切换到main.py说在的目录直接运行main.py 然后将文件目录输入
-    例如apk保存的文件目录为 /Users/liuhuiliang/work/decompil/test
+    例如apk保存的文件目录为 /Users/liuhuiliang/work/decompil/test1
     chmod +x main.py
-    ./main.py /Users/liuhuiliang/work/decompil/test
+    ./main.py /Users/liuhuiliang/work/decompil/test1
     如果apktool使用自己的目录则需要输入文件地址
     例如
-    ./main.py /Users/liuhuiliang/work/decompil/test /Users/liuhuiliang/work/decompil/jar/apktool_2.4.1.jar
+    ./main.py /Users/liuhuiliang/work/decompil/test1 /Users/liuhuiliang/work/decompil/jar/apktool_2.4.1.jar
     ''')
     else:
         js = None
