@@ -143,22 +143,23 @@ def merge_code(files):
     return fm
 
 
-def index(ls, entity):
-    if len(ls) <= 0:
-        return 0
-    for i in range(len(ls)):
-        var = entity['verCode']
-        tar = ls[i]['verCode']
-        if tar > var:
-            return i
-    return len(ls)
+# def index(ls, entity):
+#     if len(ls) <= 0:
+#         return 0
+#     for i in range(len(ls)):
+#         var = entity['verCode']
+#         tar = ls[i]['verCode']
+#         if tar > var:
+#             return i
+#     return len(ls)
 
 
-def sort(ls):
-    sort_lis = []
-    for entity in ls:
-        sort_lis.insert(index(sort_lis, entity), entity)
-    return sort_lis
+def sort_key(entity):
+    return entity['verCode']
+    # sort_lis = []
+    # for entity in ls:
+    #     sort_lis.insert(index(sort_lis, entity), entity)
+    # return sort_lis
 
 
 def compare_file(source, tar):
@@ -411,7 +412,11 @@ if __name__ == '__main__':
         files = os.listdir(path)
         fm = merge_code(files)
         for key in fm.keys():
-            sort_list = sort(fm[key])
-            compare(js, path, key, sort_list)
+            value = fm[key]
+            print(value)
+            value.sort(key=sort_key)
+            print(value)
+            # sort_list = sort(fm[key])
+            compare(js, path, key, value)
             # print(key)
             # print(fm[key])
