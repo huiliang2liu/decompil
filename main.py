@@ -258,73 +258,74 @@ def compare(js, path, name, ls):
             diff_set_source_ = diff_set_start(diff_set_source, keys)
             f.writelines('移除了\n\n')
             for line in diff_set_source_:
-                f.writelines(line)
+                f.writelines('\t\t%s' % line)
             f.writelines("\n增加了\n\n")
             diff_set_source_ = diff_set_start(diff_set_tar, keys)
             for line in diff_set_source_:
-                f.writelines(line)
+                f.writelines('\t\t%s' % line)
             f.writelines('\n移除的属性\n\n')
             for line in diff_set_source_att:
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             f.writelines('\n增加的属性\n\n')
             for line in diff_set_tar_att:
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             f.writelines('\n更新的数据\n\n')
             diff_set_source_ = diff_set(diff_set_tar, diff_set_source_)
             for line in diff_set(list2att(js, diff_set_source_), diff_set_tar_att):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             source_application = source_manifest['application']
             tar_application = tar_manifest['application']
+            f.writelines('\napplication变更情况\n\n')
             if source_application == tar_application:
-                f.writelines('\napplication节点没有修改\n')
+                f.writelines('\t\t无变更\n')
             else:
-                f.writelines('\napplication节点节点修改前:%s\n' % source_application)
-                f.writelines('\napplication节点修改后:%s\n' % tar_application)
+                f.writelines('\t\t变更前:%s\n' % source_application)
+                f.writelines('\t\t变更后:%s\n' % tar_application)
             source_permissions = source_manifest['permissions']
             tar_permissions = tar_manifest['permissions']
             inter = intersection(source_permissions, tar_permissions)
             f.writelines('\n删除的权限\n\n')
             for line in diff_set(source_permissions, inter):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             f.writelines('\n添加的权限\n\n')
             for line in diff_set(tar_permissions, inter):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             source_permissions = source_manifest['activities']
             tar_permissions = tar_manifest['activities']
             inter = intersection(source_permissions, tar_permissions)
             f.writelines('\n删除的activity\n\n')
             for line in diff_set(source_permissions, inter):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             f.writelines('\n添加的activity\n\n')
             for line in diff_set(tar_permissions, inter):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             source_permissions = source_manifest['providers']
             tar_permissions = tar_manifest['providers']
             inter = intersection(source_permissions, tar_permissions)
             f.writelines('\n删除的provider\n\n')
             for line in diff_set(source_permissions, inter):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             f.writelines('\n添加的provider\n\n')
             for line in diff_set(tar_permissions, inter):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             source_permissions = source_manifest['services']
             tar_permissions = tar_manifest['services']
             inter = intersection(source_permissions, tar_permissions)
             f.writelines('\n删除的service\n\n')
             for line in diff_set(source_permissions, inter):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             f.writelines('\n添加的service\n\n')
             for line in diff_set(tar_permissions, inter):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             source_permissions = source_manifest['receivers']
             tar_permissions = tar_manifest['receivers']
             inter = intersection(source_permissions, tar_permissions)
             f.writelines('\n删除的receiver\n\n')
             for line in diff_set(source_permissions, inter):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
             f.writelines('\n添加的receiver\n\n')
             for line in diff_set(tar_permissions, inter):
-                f.writelines('%s\n' % line)
+                f.writelines('\t\t%s\n' % line)
         # file = os.path.join(path, '%s_%s_%s_change.txt' % (name, source['ver'], tar['ver']))
         # removes, adds = compare_file(os.path.join(path, source['name']), os.path.join(path, tar['name']))
         # remove_att, add_att = compare_file(os.path.join(path, source['name']).replace('_dir.txt', '_des.txt'),
