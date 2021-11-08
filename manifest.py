@@ -12,6 +12,9 @@ def read_node(string, node_name='activity'):
             nodes.append(m.group(1))
     return nodes
 
+def launcher_activity(manifest):
+    pass
+
 
 def parse_manifest(file):
     with open(file, 'r') as f:
@@ -23,6 +26,7 @@ def parse_manifest(file):
     manifest_entity['services'] = read_node(manifest, 'service')
     manifest_entity['receivers'] = read_node(manifest, 'receiver')
     applications = read_node(manifest, 'application')
+    launcher_activity(manifest)
     if len(applications) > 0:
         manifest_entity['application'] = applications[0]
     else:

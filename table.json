@@ -29,6 +29,7 @@
   "com.facebook.ads": "facebook广告",
   "com.applovin.sdk": "applovin广告",
   "com.google.android.gms.ads": "admob广告",
+  "com.google.ads": "admob广告",
   "com.google.android.gms": "gms",
   "okio": "okhttp 的io库",
   "org.greenrobot.eventbus": "eventbus",

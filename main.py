@@ -8,9 +8,8 @@ import shutil
 import manifest
 
 
+
 def decompil(apk, save_path, apktool):
-    print(apk)
-    print(save_path)
     cmd = 'java -jar %s d "%s" -o %s' % (apktool, apk, save_path)
     os.system(cmd)
 
@@ -31,6 +30,11 @@ def statistical_file(path):
         for child in child_dir:
             fileList.append(child)
     return fileList
+
+def files_to_dirs(files):
+    dirs = []
+    return dirs
+
 
 
 def print_file(files, js, save_file=None, save_dir=None, save_des=None):
@@ -222,14 +226,14 @@ def diff_set_start(source, tar):
     return diff
 
 
-def list2att(js, list):
+def list2att(js, ls):
     att = []
     for key in js.keys():
-        for l in list:
+        for l in ls:
             if str(l).startswith(key):
                 att.append(js[key])
                 break
-    return att
+    return list(set(att))
 
 
 def compare(js, path, name, ls):
