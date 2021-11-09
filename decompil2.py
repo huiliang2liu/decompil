@@ -5,6 +5,7 @@ import re
 import hashlib
 import manifest
 import shutil
+import threading
 
 
 def file_md5(f):
@@ -79,18 +80,27 @@ def search(path, end):
     return apks
 
 
-def deal_apks(path, apks, apktool, att_json):
-    for apk in apks:
-        print('开始处理%s' % apk)
-        name = get_save_path(apk)
-        save_path = os.path.join(path, name)
-        if os.path.isdir(save_path):
-            shutil.rmtree(save_path)
-        apk_ = deal_apk(apk, save_path, apktool, att_json)
+def deal_apk_(path, apk, apktool, att_json):
+    print('开始处理%s' % apk)
+    name = get_save_path(apk)
+    save_path = os.path.join(path, name)
+    if os.path.isdir(save_path):
         shutil.rmtree(save_path)
-        with open(os.path.join(path, '%s.json' % name), 'w', encoding='utf-8') as f:
-            f.writelines(json.dumps(apk_))
-        print('处理完成%s' % apk)
+    apk_ = deal_apk(apk, save_path, apktool, att_json)
+    shutil.rmtree(save_path)
+    with open(os.path.join(path, '%s.json' % name), 'w', encoding='utf-8') as f:
+        f.writelines(json.dumps(apk_))
+    print('处理完成%s' % apk)
+
+
+def deal_apks(path, apks, apktool, att_json):
+    threads = []
+    for apk in apks:
+        thread = threading.Thread(target=deal_apk_, args=(path, apk, apktool, att_json))
+        thread.start()
+        threads.append(thread)
+    for thread in threads:
+        thread.join()
 
 
 def files_to_map(files):
@@ -162,7 +172,7 @@ def compare_json(att_json, sour, tar, name, path):
             if file not in update_attrs:
                 update_attrs.append(f)
         f.writelines('更新的属性:\n')
-        f.writelines('\t\t%s\n' % ' '.join(update_attrs))
+        f.writelines('\t\t%s\n' % ' '.join(item for item in update_attrs if isinstance(item, str)))
         not_know_sour = main.diff_set_start(sour['dirs'], att_json.keys())
         not_know_tar = main.diff_set_start(tar['dirs'], att_json.keys())
         for s in not_know_sour:
@@ -177,10 +187,15 @@ def compare_files(att_json, files, path):
     map = files_to_map(files)
     for key in map.keys():
         map[key].sort(key=lambda key: key['ver_code'])
+    threads = []
     for key in map.keys():
         values = map[key]
-        for i in range(len(values)-1):
-            compare_json(att_json, values[i]['js'], values[i+1]['js'], key, path)
+        for i in range(len(values) - 1):
+            thread = threading.Thread(target=compare_json, args=(att_json, values[i]['js'], values[i + 1]['js'], key, path))
+            thread.start()
+            threads.append(thread)
+    for thread in threads:
+        thread.join()
     print('比较完成')
 
 
@@ -191,7 +206,7 @@ if __name__ == '__main__':
     att_json = 'table.json'
     with open(att_json, 'r') as f:
         att_json = json.load(f)
-    has_deal = True
+    has_deal = False
     if has_deal:
         apks = search(path, '.apk')
         deal_apks(path, apks, apktool, att_json)
